@@ -7,7 +7,7 @@ const assert = require('assert');
 const url = 'mongodb://localhost:27017';
 
 // Database Name
-const dbName = 'myproject';
+const dbName = 'fruitsDB';
 
 // Create a new MongoClient
 const client = new MongoClient(url);
@@ -19,12 +19,14 @@ client.connect(function(err) {
 
   const db = client.db(dbName);
 
-  client.close();
+  insertDocuments(db, function(){
+    client.close();
+  });
 });
 
 const insertDocuments = function(db, callback) {
     // Get the documents collection
-    const collection = db.collection('Fruits');
+    const collection = db.collection('fruits');
     // Insert some documents
     collection.insertMany([
       {
