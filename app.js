@@ -1,28 +1,16 @@
 //jshint esversion:6
+const mongoose = require('mongoose');
 
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true});
 
-// Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'fruitsDB';
-
-// Create a new MongoClient
-const client = new MongoClient(url);
-
-// Use connect method to connect to the Server
-client.connect(function(err) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-
-  const db = client.db(dbName);
-
-  insertDocuments(db, function(){
-    client.close();
-  });
+const fruitSchema = new mongoose.Schema ({
+    name: String,
+    rating: Number,
+    review: String,
 });
+
+const Fruit = mongoose.model("Fruit", fruitSchema);
+
 
 const insertDocuments = function(db, callback) {
     // Get the documents collection
